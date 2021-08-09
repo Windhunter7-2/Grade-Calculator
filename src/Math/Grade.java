@@ -11,9 +11,18 @@ public class Grade {
 	public ArrayList<Subgrade> subgradeList;
 	
 	public String name;
-
+	
+	
+	//Constructors for testing only
+	
+	public Grade(double percent, ArrayList<Subgrade> subgradeList, String name) {
+		this.percent = percent;
+		this.subgradeList = subgradeList;
+		this.numGrades = subgradeList.size();
+		this.name = name;
+	}
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 	}
 

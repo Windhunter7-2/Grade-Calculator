@@ -19,4 +19,14 @@ public class Subgrade {
 
 	}
 
+	public Subgrade(boolean toCalculate, double grade, double expectedGrade, String name) {
+		super();
+		this.toCalculate = toCalculate;
+		this.grade = grade;
+		this.expectedGrade = expectedGrade;
+		this.name = name;
+		this.isEmpty = (grade < 0);
+		this.isExpected = (expectedGrade >= 0);
+	}
+
 }
