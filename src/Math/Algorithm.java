@@ -13,26 +13,60 @@ public class Algorithm {
 	private double addKnown (ArrayList<Grade> grades)
 	{
 		double outval = 0.0;
-		for(Grade g : grades) {
+		for(Grade g : grades) 
+		{
 			int numKnown = 0;
-			double gradeAverage = 0.0;
-			for (Subgrade s : g.subgradeList) {
-				if (!s.isEmpty) {
-					System.out.println(s.grade);
+			double gradeAverage = 0;
+			double totalProp = 0;
+			for (Subgrade s : g.subgradeList) 
+			{
+				if (!s.isEmpty) 
+				{
 					numKnown++;
 					gradeAverage += s.grade;
 				}
 			}
-			gradeAverage /= numKnown;
-			outval += g.percent * gradeAverage;
+			if (numKnown > 0) 
+			{
+				gradeAverage /= numKnown;
+			}
+			if (g.numGrades() > 0) 
+			{
+				totalProp = (double)numKnown / g.numGrades();
+			}
+			outval += g.percent * totalProp * gradeAverage;
 		}
 		return outval;
 	}
 	
 	private double addExpected (ArrayList<Grade> grades)
 	{
-		//TODO Cole
-		return 0.0;
+		double outval = 0.0;
+		for(Grade g : grades) 
+		{
+			int numExpected = 0;
+			double gradeAverage = 0.0;
+			double totalProp = 0;
+			for (Subgrade s : g.subgradeList) 
+			{
+				if (!s.toCalculate && s.isExpected && s.isEmpty)
+				{
+					numExpected++;
+					gradeAverage += s.expectedGrade;
+				}
+			}
+			if (numExpected > 0) 
+			{
+				gradeAverage /= numExpected;
+			}
+			if (g.numGrades() > 0) 
+			{
+				totalProp = (double)numExpected / g.numGrades();
+			}
+			
+			outval += g.percent * totalProp * gradeAverage;
+		}
+		return outval;
 	}
 	
 	private double addToCalculate (ArrayList<Grade> grades)
