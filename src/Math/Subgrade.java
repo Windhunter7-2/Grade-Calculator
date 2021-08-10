@@ -26,7 +26,6 @@ public class Subgrade {
 		this.expectedGrade = expectedGrade;
 		this.name = name;
 		this.isEmpty = (grade < 0);
-		this.isExpected = (expectedGrade >= 0);
+		this.isExpected = (expectedGrade >= 0 && isEmpty);
 	}
-
 }
