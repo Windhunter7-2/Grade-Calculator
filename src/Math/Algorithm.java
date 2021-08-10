@@ -71,8 +71,27 @@ public class Algorithm {
 	
 	private double addToCalculate (ArrayList<Grade> grades)
 	{
-		//TODO Cole
-		return 0.0;
+		double outval = 0.0;
+		for(Grade g : grades) 
+		{
+			int numToCalc = 0;
+			double totalProp = 0;
+			for (Subgrade s : g.subgradeList) 
+			{
+				if (s.toCalculate)
+				{
+					numToCalc++;
+				}
+			}
+			
+			if (g.numGrades() > 0) 
+			{
+				totalProp = (double) numToCalc / g.numGrades();
+			}
+			
+			outval += g.percent * totalProp;
+		}
+		return outval;
 	}
 	
 	//TODO Finalize
