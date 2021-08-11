@@ -4,7 +4,7 @@ public class ReadingWriting {
 	
 	private String baseFolder;
 	
-	ReadingWriting (String baseFolder_)
+	public ReadingWriting (String baseFolder_)
 	{
 		//TO DO
 	}
