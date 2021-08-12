@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import External.MainDirectoryInfo;
@@ -35,15 +36,23 @@ public class GUI extends Application {
 	 * @param s The current stage to be passed to main GUI.
 	 */
 	private void loadClass(Stage s) {
+		
+		FileChooser chooser = new FileChooser();
+		chooser.setTitle("Open class file");
+		chooser.showOpenDialog(s); // Returns a File object
+		
 		mainGUI(null, s);
 	}
 	
 	private void startGUI ()
 	{
-		baseFolder = MainDirectoryInfo.getMainDirectory() + "Grade-Calculator/";
-		fileHandler = new ReadingWriting(baseFolder);
+		//baseFolder = MainDirectoryInfo.getMainDirectory() + "Grade-Calculator/";
+		//fileHandler = new ReadingWriting(baseFolder);
 		
+		// ---------------
 		// getMainDirectory produces exception since directory not found
+		// Use JavaFX's file chooser to choose a directory?
+		// ---------------
 		
 		// Creates the scene
 		Stage s = new Stage();
