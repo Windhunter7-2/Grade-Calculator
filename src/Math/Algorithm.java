@@ -94,18 +94,22 @@ public class Algorithm {
 		return outval;
 	}
 	
+	/**
+	 * Calculates the percent of assignments yet to be graded.
+	 * @param grades
+	 * @return
+	 */
 	private double percentRemaining(ArrayList<Grade> grades) {
-		int numUngraded = 0;
-		int numTotal = 0;
+		double outval = 0.0;
 		for (Grade g : grades) {
-			numTotal += g.numGrades();
 			for (Subgrade s : g.subgradeList) {
 				if(s.isEmpty) {
-					numUngraded++;
+					outval += g.percent / g.numGrades();
 				}
 			}
 		}
-		return (double) numUngraded / numTotal;
+		System.out.println(outval);
+		return outval;
 	}
 	
 	private double gradeNeeded(ArrayList<Grade> grades, double cutoff, double x) {
