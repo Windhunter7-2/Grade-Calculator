@@ -6,7 +6,7 @@ import Math.Grade;
 
 public class Parsing {
 	
-	public ArrayList<Grade> stringToGrades (String string_)
+	public static ArrayList<Grade> stringToGrades (String string_)
 	{
 		//TO DO
 		return null;
@@ -18,7 +18,7 @@ public class Parsing {
 		return "";
 	}
 	
-	public void stringToInt (String string_)
+	public static void stringToInt (String string_)
 	{
 		//TO DO
 	}

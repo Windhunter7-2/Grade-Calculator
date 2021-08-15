@@ -1,5 +1,8 @@
 package Menus;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -13,7 +16,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import External.MainDirectoryInfo;
+import Files.Parsing;
 import Files.ReadingWriting;
+import Math.Algorithm;
 import Math.Grade;
 
 
@@ -37,17 +42,41 @@ public class GUI extends Application {
 	 */
 	private void loadClass(Stage s) {
 		
+		File baseDir = new File(baseFolder);
+		
 		FileChooser chooser = new FileChooser();
 		chooser.setTitle("Open class file");
-		chooser.showOpenDialog(s); // Returns a File object
+		chooser.setInitialDirectory(baseDir);
+		File exClass = chooser.showOpenDialog(s);
 		
-		mainGUI(null, s);
+		chooser.setTitle("Open grade cutoff file");
+		File exCuts = chooser.showOpenDialog(s);
+		
+		ArrayList<Grade> grades = null;
+		
+		try {
+			
+			if ( exClass == null || exCuts == null ) {
+				System.out.println("File(s) was not chosen.");
+				System.exit(-1);
+			}
+			
+			grades = Parsing.stringToGrades(Files.readString(exClass.toPath()));
+			Parsing.stringToInt(Files.readString(exCuts.toPath())); // We'll have Parsing deal with Algorithm
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("We were unable to read the file.");
+		} catch (SecurityException e) {
+			System.out.println("We do not have access to read file.");
+		}
+		
+		mainGUI(grades, s);
 	}
 	
 	private void startGUI ()
 	{
-		//baseFolder = MainDirectoryInfo.getMainDirectory() + "Grade-Calculator/";
-		//fileHandler = new ReadingWriting(baseFolder);
+		baseFolder = System.getProperty("user.dir");
+		fileHandler = new ReadingWriting(baseFolder);
 		
 		// ---------------
 		// getMainDirectory produces exception since directory not found
@@ -92,7 +121,9 @@ public class GUI extends Application {
 	 * @param s Stage to be passed to main GUI.
 	 */
 	private void loadCutOffs(Stage s) {
-		mainGUI(null, s);
+		ArrayList<Grade> grades = null;
+		
+		mainGUI(grades, s);
 	}
 	
 	/**
@@ -105,7 +136,9 @@ public class GUI extends Application {
 	 * @param s Stage to be passed to main GUI.
 	 */
 	private void newCutOffs(Stage s) {
-		mainGUI(null, s);
+		ArrayList<Grade> grades = null;
+		
+		mainGUI(grades, s);
 	}
 	
 	private void createClassGUI (Stage s)
