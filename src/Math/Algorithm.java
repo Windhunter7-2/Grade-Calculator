@@ -8,7 +8,7 @@ public class Algorithm {
 
 	//private double remainingPercent;
 
-	private boolean areExpected;
+	//private boolean areExpected;
 
 	private double addKnown (ArrayList<Grade> grades)
 	{
@@ -103,7 +103,7 @@ public class Algorithm {
 		{
 			for (Subgrade s : g.subgradeList) 
 			{
-				if(s.isEmpty) 
+				if(s.isEmpty && !s.toCalculate) 
 				{
 					outval += g.percent / g.numGrades();
 				}
@@ -124,13 +124,11 @@ public class Algorithm {
 			double cutoffProp = (double) i / 100.0;
 			String x1 = String.format("0%%: %.2f", gradeNeeded(grades, cutoffProp, 0));
 			String x2 = String.format("100%%: %.2f", gradeNeeded(grades, cutoffProp, percentRemaining(grades)));
-			String x3 = "\n";
-			if (areExpected) {
-				x3 = x3 + String.format("Expected%%: %.2f", gradeNeeded(grades, cutoffProp, addExpected(grades) * percentRemaining(grades)));
-			}
+			String x3 = String.format("Expected%%: %.2f", gradeNeeded(grades, cutoffProp, addExpected(grades)));
+			
 			System.out.println("Cutoff: " + i + "%\n" 
 			+ x1 + "\n"
-			+ x2
+			+ x2 + "\n"
 			+ x3 + "\n");
 		}
 	}
@@ -141,7 +139,6 @@ public class Algorithm {
 	 */
 	public static void main(String[] args) {
 		Algorithm a = new Algorithm();
-		a.areExpected = true;
 		a.gradeCutoffs = new int[]{97, 93, 90, 87, 83, 80, 77, 73, 70, 60, 0};
 		ArrayList<Grade> g = new ArrayList<Grade>();
 
