@@ -41,31 +41,23 @@ public class Algorithm {
 
 	private double addExpected (ArrayList<Grade> grades)
 	{
-		double outval = 0.0;
+		double countA = 0.0;
+		double countB = 0.0;
 		for(Grade g : grades) 
-		{
-			int numExpected = 0;
-			double gradeAverage = 0.0;
-			double totalProp = 0;
+		{	
+			double curWeight = g.numGrades() > 0 ? g.percent / g.numGrades() : 0;
 			for (Subgrade s : g.subgradeList) 
 			{
-				if (!s.toCalculate && s.isExpected && s.isEmpty)
+				if (!s.toCalculate && s.isEmpty)
 				{
-					numExpected++;
-					gradeAverage += s.expectedGrade;
+					if (s.isExpected) {
+						countB += curWeight * s.expectedGrade;
+					}
+					countA += curWeight;
 				}
 			}
-			if (numExpected > 0) 
-			{
-				gradeAverage /= numExpected;
-			}
-			if (g.numGrades() > 0) 
-			{
-				totalProp = (double)numExpected / g.numGrades();
-			}
-			outval += g.percent * totalProp * gradeAverage;
 		}
-		return outval;
+		return countA > 0 ? percentRemaining(grades) * countB / countA : 0;
 	}
 
 	private double addToCalculate (ArrayList<Grade> grades)
