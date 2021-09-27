@@ -15,26 +15,27 @@ public class Algorithm {
 		double outval = 0.0;
 		for(Grade g : grades) 
 		{
-			int numKnown = 0;
-			double gradeAverage = 0;
-			double totalProp = 0;
-			for (Subgrade s : g.subgradeList) 
-			{
-				if (!s.isEmpty) 
+			if (g.numGrades() > 0) {
+				int numKnown = 0;
+				double gradeAverage = 0;
+				double totalProp = 0;
+				for (Subgrade s : g.subgradeList) 
 				{
-					numKnown++;
-					gradeAverage += s.grade;
+					if (!s.isEmpty) 
+					{
+						numKnown++;
+						gradeAverage += s.grade;
+					}
 				}
+				if (numKnown > 0) 
+				{
+					gradeAverage /= numKnown;
+				}
+				totalProp = (double)numKnown / g.numGrades();			
+				outval += g.percent * totalProp * gradeAverage;
+			} else { 
+				
 			}
-			if (numKnown > 0) 
-			{
-				gradeAverage /= numKnown;
-			}
-			if (g.numGrades() > 0) 
-			{
-				totalProp = (double)numKnown / g.numGrades();
-			}
-			outval += g.percent * totalProp * gradeAverage;
 		}
 		return outval;
 	}
@@ -93,11 +94,15 @@ public class Algorithm {
 		double outval = 0.0;
 		for (Grade g : grades) 
 		{
-			for (Subgrade s : g.subgradeList) 
-			{
-				if(s.isEmpty && !s.toCalculate) 
-				{
-					outval += g.percent / g.numGrades();
+			if (g.numGrades() == 0) {
+				outval += g.percent;
+			} else {
+				for (Subgrade s : g.subgradeList) 
+				{	
+					if(s.isEmpty && !s.toCalculate) 
+					{
+						outval += g.percent / g.numGrades();
+					}
 				}
 			}
 		}
@@ -114,10 +119,10 @@ public class Algorithm {
 	{
 		for(int i : gradeCutoffs) {
 			double cutoffProp = (double) i / 100.0;
-			String x1 = String.format("0%%: %.2f", gradeNeeded(grades, cutoffProp, 0));
-			String x2 = String.format("100%%: %.2f", gradeNeeded(grades, cutoffProp, percentRemaining(grades)));
-			String x3 = String.format("Expected%%: %.2f", gradeNeeded(grades, cutoffProp, addExpected(grades)));
-			
+			String x1 = String.format("0%%: %.3f", gradeNeeded(grades, cutoffProp, 0));
+			String x2 = String.format("100%%: %.3f", gradeNeeded(grades, cutoffProp, percentRemaining(grades)));
+			String x3 = String.format("Expected%%: %.3f", gradeNeeded(grades, cutoffProp, addExpected(grades)));
+
 			System.out.println("Cutoff: " + i + "%\n" 
 			+ x1 + "\n"
 			+ x2 + "\n"
@@ -142,8 +147,6 @@ public class Algorithm {
 		g.add(new Grade(0.7, s1, "Homeworks"));
 
 		ArrayList<Subgrade> s2 = new ArrayList<Subgrade>();
-		s2.add(new Subgrade(false, 0.82, -1.0, "Midterm"));
-		s2.add(new Subgrade(true, -1.0, -1.0, "FinalExam"));
 		g.add(new Grade(0.3, s2, "Tests"));
 		a.runAlgorithm(g);
 	}
